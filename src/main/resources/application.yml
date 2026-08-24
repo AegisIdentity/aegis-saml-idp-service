@@ -9,6 +9,11 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${AEGIS_ISSUER:http://localhost:9000}
+          # M-edge-1: when set, Spring Boot adds an audience validator asserting this resource server
+          # is an intended audience of the token (defeats cross-service replay when scope sets overlap).
+          # Unset binds to an empty list = no-op (issuer + expiry still enforced), so scaffold tests and
+          # local dev pass. Set per-env, e.g. AEGIS_JWT_AUDIENCE=aegis-saml-idp-service.
+          audiences: ${AEGIS_JWT_AUDIENCE:}
 
 management:
   endpoints:
